@@ -1,0 +1,7 @@
+/* styling the meal page */
+
+.meal-details {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}

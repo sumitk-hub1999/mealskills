@@ -8,7 +8,9 @@ const mealsList = document.getElementById("meals-list");
 const searchBarList = document.createElement("ul");
 const searchBarValue = document.getElementById("search-input");
 const searchBar = document.getElementById("meal-search-box");
-
+const searchInput = window.location.search;
+//const searchInput = window.location.search;
+//const favBtn = document.getElementById();
 //ADDING TO FAVOURITES LIST FIRST
 
 //when we click search button triggered
@@ -16,55 +18,7 @@ searchBtn.addEventListener("click", getMeals);
 //fetching list of meals matching to search input
 // we will add dynamic input event listeners
 //listening different inputs or dynamically
-window.addEventListener("click", () => {
-  while (searchBarList.firstChild) {
-    searchBarList.removeChild(searchBarList.firstChild);
-  }
-});
-
 // event listener  to listen dynamic input
-searchBarValue.addEventListener("keyup", (e) => {
-  while (searchBarList.firstChild) {
-    searchBarList.removeChild(searchBarList.firstChild);
-  }
-  API_SEARCH_BAR_URL = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
-  let searchValueInput = document.getElementById("search-input").value;
-  API_SEARCH_BAR_URL += searchValueInput;
-  populateSearchList(API_SEARCH_BAR_URL);
-  searchBar.append(searchBarList);
-});
-
-// function to add list items of dynamic input to search bar list
-async function populateSearchList(url) {
-  await fetch(url)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("NETWORK RESPONSE ERROR");
-      }
-    })
-    .then((data) => {
-      obj1 = data;
-    })
-    .catch((error) => {
-      console.error("FETCH ERROR:", error);
-    });
-
-  let { meals } = obj1;
-
-  a = url.substring(url.indexOf("=") + 1);
-  a += "";
-
-  if (obj1 != null) {
-    for (element of meals) {
-      var searchListItem = document.createElement("li");
-      searchListItem.className = "searchListItem";
-      searchListItem.innerHTML = `<a href = "javascript:void(0)" onclick= "fetchById(${element["idMeal"]}) " >${element["strMeal"]}</a>`;
-    }
-    searchBarMealsList.append(searchListItem);
-  }
-}
 
 //searchBarValue.addEventListener();
 function getMeals() {
@@ -76,8 +30,24 @@ function getMeals() {
       //   obj = data; //assign data to an empty object
       //   createList(obj);
       let html = "";
+
       if (data.meals) {
+        //const favourites = getFavourites();
+        // let isFavourite = "ADD TO FAVOURITES";
+        // for (elem of favourites) {
+        //   if (meal["idMeal"] == meal["idMeal"]) {
+        //     isFavourite = "REMOVE FROM FAV";
+        //   }
+        // }
+
         data.meals.forEach((meal) => {
+          const favourites = getFavourites();
+          let isFavourite = "add to favourite";
+          for (elem of favourites) {
+            if (elem["idMeal"] == meal["idMeal"]) {
+              isFavourite = "remove from fav";
+            }
+          }
           html += `
             <div class="meal-item">
             <div class="meal-img">
@@ -88,13 +58,13 @@ function getMeals() {
             </div>
             <div class="meal-name">
               <h3>${meal["strMeal"]}</h3>
-              <a   onclick= "fetchById(${meal["idMeal"]})" data-id =${meal["idMeal"]} class="recipe-btn" 
+              <a   onclick= "fetchById(${meal["idMeal"]})" data-id =${meal["idMeal"]} target = "_blank" class="recipe-btn" 
                 ><i class="fa-solid fa-spoon"></i>get recipe</a
               >
-              <a href="#" class="fav-btn"
-                ><i class="fa-solid fa-plus"></i>add to favourite</a
+              <a class="fav-btn" id="fav-btn" onclick = addToFavourites(${meal["idMeal"]}) id = "fav-btn" fav-data-id = ${meal["idMeal"]}>${isFavourite}
+                </a
               >
-              <a href="" class="view-btn"
+              <a href="" class="view-btn" onclick= "fetchById(${meal["idMeal"]})" data-id =${meal["idMeal"]} 
                 ><i class="fa-brands fa-youtube"></i>view recipe</a
               >
             </div>
@@ -153,7 +123,92 @@ const fetchById = (id) => {
 function setToLocal(obj) {
   const a = obj.meals;
   localStorage.setItem("mealsDesc", JSON.stringify(a[0]));
+  window.target = "_blank";
   window.location.href = "./recipe.html";
 }
 
 //ADD TO FAVOURITES
+
+const favouritesMealArray = []; //array containing favourites meal
+function addToFavourites(id) {
+  favBtn = document.querySelector('[fav-data-id = "' + id + '"]');
+  console.log(favBtn);
+  favBtn.innerText = "remove from fav";
+  let searchInput = document.getElementById("search-input").value.trim();
+  console.log(searchInput.length); //fetching data from api
+  fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("NETWORK RESPONSE ERROR");
+      }
+    })
+    .then((data) => {
+      obj = data;
+    })
+    .catch((error) => {
+      console.error("FETCH ERROR:", error);
+    });
+
+  const { meals } = obj;
+  let isPresentAlready = -1;
+  for (elem of meals) {
+    if (elem["idMeal"] == id) {
+      const favourites = getFavourites();
+      favourites.forEach((e) => {
+        if (e["idMeal"] == id) {
+          isPresentAlready = 0;
+        }
+      });
+      if (isPresentAlready == -1) {
+        favouritesMealArray.push(elem);
+        localStorage.setItem("favourites", JSON.stringify(favouritesMealArray));
+        console.log(favouritesMealArray);
+      } else {
+        const favourites = getFavourites();
+        res = -1;
+        favourites.forEach((elem) => {
+          if (elem["idMeal"] == id) {
+            res = favourites.indexOf(elem);
+          }
+        });
+
+        if (res != -1) {
+          favBtn = document.querySelector('[fav-data-id = "' + id + '"]');
+          favBtn.innerText = "add to favourite";
+          favourites.splice(res, 1);
+          localStorage.setItem("favourites", JSON.stringify(favourites));
+          console.log(favourites);
+        }
+      }
+    }
+  }
+}
+
+function getFavourites() {
+  let favourites = [];
+  const isPresent = localStorage.getItem("favourites");
+  if (isPresent) {
+    favourites = JSON.parse(isPresent);
+  }
+  return favourites;
+}
+
+// function deletefromStorage(id) {
+//   const favourites = getFavourites();
+//   res = -1;
+//   favourites.forEach((elem) => {
+//     if (elem["idMeal"] == id) {
+//       res = favourites.indexOf(elem);
+//     }
+//   });
+
+//   if (res != -1) {
+//     favBtn = document.querySelector('[fav-data-id = "' + id + '"]');
+//     favBtn.innerText = "add to favourite";
+//     favourites.splice(res, 1);
+//     localStorage.setItem("favourites", JSON.stringify(favourites));
+//     console.log(favourites);
+//   }
+// }

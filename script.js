@@ -11,8 +11,75 @@ const searchBar = document.getElementById("meal-search-box");
 const searchInput = window.location.search;
 //const searchInput = window.location.search;
 //const favBtn = document.getElementById();
-//ADDING TO FAVOURITES LIST FIRST
+//ADD TO FAVOURITES
 
+const favouritesMealArray = []; //array containing favourites meal
+function addToFavourites(id) {
+  favBtn = document.querySelector('[fav-data-id = "' + id + '"]');
+  console.log(favBtn);
+  favBtn.innerText = "remove from fav";
+
+  let searchInput = document.getElementById("search-input").value.trim();
+  console.log(searchInput.length); //fetching data from api
+  fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("NETWORK RESPONSE ERROR");
+      }
+    })
+    .then((data) => {
+      obj = data;
+    })
+    .catch((error) => {
+      console.error("FETCH ERROR:", error);
+    });
+
+  const { meals } = obj;
+  let isPresentAlready = -1;
+  for (elem of meals) {
+    if (elem["idMeal"] == id) {
+      const favourites = getFavourites();
+      favourites.forEach((e) => {
+        if (e["idMeal"] == id) {
+          isPresentAlready = 0;
+        }
+      });
+      if (isPresentAlready == -1) {
+        favouritesMealArray.push(elem);
+        localStorage.setItem("favourites", JSON.stringify(favouritesMealArray));
+      } else {
+        const favourites = getFavourites();
+        res = -1;
+        //iterate favourites array n find if element present or not
+        favourites.forEach((elem) => {
+          if (elem["idMeal"] == id) {
+            res = favourites.indexOf(elem);
+          }
+        });
+        //if present then delete
+        if (res != -1) {
+          favBtn = document.querySelector('[fav-data-id = "' + id + '"]');
+          favBtn.innerText = "add to favourite";
+
+          favourites.splice(res, 1);
+          localStorage.setItem("favourites", JSON.stringify(favourites));
+          console.log(favourites);
+        }
+      }
+    }
+  }
+}
+//function to fetch array containing favourites from local storage
+function getFavourites() {
+  let favourites = [];
+  const isPresent = localStorage.getItem("favourites");
+  if (isPresent) {
+    favourites = JSON.parse(isPresent);
+  }
+  return favourites;
+}
 //when we click search button triggered
 searchBtn.addEventListener("click", getMeals);
 //fetching list of meals matching to search input
@@ -48,6 +115,7 @@ function getMeals() {
               isFavourite = "remove from fav";
             }
           }
+          //appending html ..
           html += `
             <div class="meal-item">
             <div class="meal-img">
@@ -84,19 +152,6 @@ function getMeals() {
     });
 }
 
-//creating function to display the list of meals
-// function createList(obj) {
-
-// }
-
-//function to add list item to dom
-// function addLi(meal) {
-//   const li = document.createElement("li");
-
-//   li.innerHTML = `
-
-//   `;
-//   mealsList.append(li);
 // }
 
 // //fetching recipe info and all and displaying whole recipe in new page
@@ -126,89 +181,3 @@ function setToLocal(obj) {
   window.target = "_blank";
   window.location.href = "./recipe.html";
 }
-
-//ADD TO FAVOURITES
-
-const favouritesMealArray = []; //array containing favourites meal
-function addToFavourites(id) {
-  favBtn = document.querySelector('[fav-data-id = "' + id + '"]');
-  console.log(favBtn);
-  favBtn.innerText = "remove from fav";
-  let searchInput = document.getElementById("search-input").value.trim();
-  console.log(searchInput.length); //fetching data from api
-  fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("NETWORK RESPONSE ERROR");
-      }
-    })
-    .then((data) => {
-      obj = data;
-    })
-    .catch((error) => {
-      console.error("FETCH ERROR:", error);
-    });
-
-  const { meals } = obj;
-  let isPresentAlready = -1;
-  for (elem of meals) {
-    if (elem["idMeal"] == id) {
-      const favourites = getFavourites();
-      favourites.forEach((e) => {
-        if (e["idMeal"] == id) {
-          isPresentAlready = 0;
-        }
-      });
-      if (isPresentAlready == -1) {
-        favouritesMealArray.push(elem);
-        localStorage.setItem("favourites", JSON.stringify(favouritesMealArray));
-        console.log(favouritesMealArray);
-      } else {
-        const favourites = getFavourites();
-        res = -1;
-        favourites.forEach((elem) => {
-          if (elem["idMeal"] == id) {
-            res = favourites.indexOf(elem);
-          }
-        });
-
-        if (res != -1) {
-          favBtn = document.querySelector('[fav-data-id = "' + id + '"]');
-          favBtn.innerText = "add to favourite";
-          favourites.splice(res, 1);
-          localStorage.setItem("favourites", JSON.stringify(favourites));
-          console.log(favourites);
-        }
-      }
-    }
-  }
-}
-
-function getFavourites() {
-  let favourites = [];
-  const isPresent = localStorage.getItem("favourites");
-  if (isPresent) {
-    favourites = JSON.parse(isPresent);
-  }
-  return favourites;
-}
-
-// function deletefromStorage(id) {
-//   const favourites = getFavourites();
-//   res = -1;
-//   favourites.forEach((elem) => {
-//     if (elem["idMeal"] == id) {
-//       res = favourites.indexOf(elem);
-//     }
-//   });
-
-//   if (res != -1) {
-//     favBtn = document.querySelector('[fav-data-id = "' + id + '"]');
-//     favBtn.innerText = "add to favourite";
-//     favourites.splice(res, 1);
-//     localStorage.setItem("favourites", JSON.stringify(favourites));
-//     console.log(favourites);
-//   }
-// }

@@ -35,9 +35,7 @@ function addFavouriteMeals() {
         ><i class="fa-sharp fa-solid fa-xmark"></i>remove from
         favourite</a
       >
-      <a href="" class="view-btn"  href = "${element["strYoutube"]}"
-        ><i class="fa-brands fa-youtube"></i>view recipe</a
-      >
+      
     </div>
   </div>
   
@@ -48,7 +46,7 @@ function addFavouriteMeals() {
 // function to fetch from  favourites array from local storage
 function getFavourites() {
   let favourites = [];
-  const isPresent = localStorage.getItem("favourites");
+  const isPresent = localStorage.getItem("favourites"); //parsing favourites array
   if (isPresent) {
     favourites = JSON.parse(isPresent);
   }
@@ -58,15 +56,15 @@ function getFavourites() {
 
 //function to delete data from favourites  array through id
 function deletefromStorage(id) {
-  console.log(id);
+  //console.log(id);
   const favourites = getFavourites();
   let res;
 
   favourites.forEach((elem) => {
     if (elem["idMeal"] == id) {
-      console.log();
+      //console.log();
       res = favourites.indexOf(elem);
-      console.log(res);
+      //console.log(res);
     }
   });
   if (res != -1) {

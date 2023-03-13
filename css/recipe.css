@@ -1,7 +1,95 @@
 /* styling the meal page */
+@import url("https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,300;0,500;0,700;0,800;1,500;1,600;1,700&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 
-.meal-details {
-  position: fixed;
+body {
+  font-weight: 300;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-family: "Shantell Sans", sans-serif;
+  background-color: rgb(204, 235, 204);
+}
 
-  background: rgb(94, 239, 94);
+.btn {
+  font-family: inherit;
+  cursor: pointer;
+  outline: 0;
+  font-size: 1.05rem;
+}
+
+.heading {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  /* display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch; */
+  opacity: 0.8;
+}
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: 1.5rem;
+  align-items: center;
+  background-color: rgb(183, 240, 96);
+}
+
+.nav a {
+  color: black;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+.nav a:visited {
+  color: black;
+}
+.container {
+  min-height: 100vh;
+}
+
+.view-btn {
+  text-decoration: none;
+  color: green;
+  background: lightgreen;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.75rem 0;
+  display: block;
+  width: 175px;
+  margin: 1rem auto;
+  border-radius: 2rem;
+  transition: all 0.4s linear;
+}
+.view-btn:hover {
+  background-color: darkgreen;
+  color: white;
+  cursor: pointer;
+}
+.recipe-link {
+  text-decoration: none;
+  color: green;
+  background: lightgreen;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.75rem 0;
+  display: block;
+  width: 175px;
+  margin: 1rem auto;
+  border-radius: 2rem;
+  transition: all 0.4s linear;
+}
+.recipe-link:hover {
+  background-color: darkgreen;
+  color: white;
+  cursor: pointer;
 }

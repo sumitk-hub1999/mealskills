@@ -149,6 +149,7 @@ body {
   margin: 1rem auto;
   border-radius: 2rem;
   transition: all 0.4s linear;
+  cursor: pointer;
 }
 .recipe-btn:hover {
   background-color: darkgreen;
@@ -166,6 +167,7 @@ body {
   margin: 1rem auto;
   border-radius: 2rem;
   transition: all 0.4s linear;
+  cursor: pointer;
 }
 .fav-btn:hover {
   background-color: darkgreen;
@@ -187,6 +189,7 @@ body {
 .view-btn:hover {
   background-color: darkgreen;
   color: white;
+  cursor: pointer;
 }
 
 /* .meals-wrapper {
@@ -273,4 +276,5 @@ body {
 .remove-btn:hover {
   background: rgb(146, 6, 6);
   color: white;
+  cursor: pointer;
 }

@@ -132,9 +132,7 @@ function getMeals() {
               <a class="fav-btn" id="fav-btn" onclick = addToFavourites(${meal["idMeal"]}) id = "fav-btn" fav-data-id = ${meal["idMeal"]}>${isFavourite}
                 </a
               >
-              <a href="" class="view-btn" onclick= "fetchById(${meal["idMeal"]})" data-id =${meal["idMeal"]} 
-                ><i class="fa-brands fa-youtube"></i>view recipe</a
-              >
+             
             </div>
           </div>
             

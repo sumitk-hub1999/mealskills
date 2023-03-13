@@ -18,66 +18,59 @@
       href="https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,300;0,500;0,700;0,800;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
-    <!-- <link rel="stylesheet" href="styles.css" /> -->
+
     <link rel="stylesheet" href="./css/recipe.css" />
   </head>
   <body>
     <div class="container">
-      <!-- <div class="nav">
+      <div class="nav">
         <a href="index.html" class="home-nav">Home</a>
         <a href="favourites.html" class="favourites-nav">favourites</a>
-      </div> -->
+      </div>
+      <img class="gif" src="main-qimg-63423238d0ccda0bcccbc0a019223ddb.gif" />
+      <h1 class="heading">Your Meal is here</h1>
       <div class="meal-details">
-        <!-- recipe close button -->
-        <button type="button" class="recipe-close-btn">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-
         <!-- meal content -->
 
         <div class="meal-details-content">
-          <h2 class="recipe-title">Meals Name here</h2>
-          <p class="recipe-category">Category name</p>
-          <div class="recipe-instructions">
-            <h3>Instructions</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum,
-              odio illum? Quo facere voluptas earum deleniti optio ab nulla in
-              ducimus, pariatur itaque officia quod, fugit ullam expedita libero
-              sed?
-            </p>
-          </div>
-          <div class="recipe-meal-img">
-            <img
+          <div id="recipe-meal-img">
+            <!-- <img
               src="https://www.indianhealthyrecipes.com/wp-content/uploads/2022/04/lemon-pepper-fish-recipe-500x375.jpg"
               alt=""
-            />
+            /> -->
           </div>
-          <div class="recipe-link">
-            <a href="#">Watch video</a>
-            <a href="index.html"> ---Go BaCk HoMe-- </a>
+          <h3>Category name</h3>
+          <div id="recipe-category"></div>
+          <h3>ingredients</h3>
+          <ul id="ingredients"></ul>
+          <h1
+            style="
+              font-size: 3rem;
+              font-family: 'Courier New', Courier, monospace;
+              font-style: italic;
+            "
+          >
+            Instructions
+          </h1>
+          <div id="recipe-instructions">
+            <!-- <p>
+             ates asperiores quidem doloribus commodi
+              nesciunt quasi omnis dicta, ratione officiis nihil tempora neque
+              animi saepe magnam, alias, tempore repellat amet pariatur
+              molestiae recusandae facere. Ut vel labore voluptatibus amet
+              reprehenderit, impedit quaerat deleniti obcaecati sequi! Quod
+              explicabo eos praesentium consequatur animi rerum fugit, corporis
+              laborum, nesciunt autem, incidunt cumque odit nostrum pariatur
+              iure reprehenderit.
+            </p> -->
           </div>
+          <div id="view-btn"></div>
+
+          <a href="index.html" class="recipe-link"> ---Go BaCk HoMe-- </a>
         </div>
       </div>
     </div>
 
-    <!-- <div class="left-container">
-      <div id="recipe">
-        <div class="sec-center">
-          <input
-            class="dropdown"
-            type="checkbox"
-            id="dropdown"
-            name="dropdown"
-          />
-          <label class="for-dropdown" for="dropdown"
-            >Ingredients <i class="uil uil-arrow-down"></i
-          ></label>
-          <div id="section-dropdown"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="right-container"></div> -->
+    <script src="js/recipe.js"></script>
   </body>
 </html>
